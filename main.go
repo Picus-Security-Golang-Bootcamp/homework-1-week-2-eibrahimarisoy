@@ -21,8 +21,6 @@ const info = `
 `
 
 func main() {
-	fmt.Printf(info)
-	fmt.Println()
 
 	// get the arguments from the command line
 	args := os.Args[1:]
@@ -45,11 +43,13 @@ func main() {
 		}
 
 		// checks bookName is in the books slice and get index
-		if e, i := contains(books, args[1]); e {
+		book := strings.Join(args[1:], " ")
+		if i, e := contains(books, book); e {
 			fmt.Printf("Book name => %s \n", books[i])
 			return
 		}
 		fmt.Println("We don't have that book")
+		fmt.Printf(info)
 	}
 	// terminates the program
 	return
@@ -62,14 +62,12 @@ func list(books []string) {
 	}
 }
 
-// contains checks if a book is in the books slice
-// if exists return its index
-func contains(s []string, e string) (bool, int) {
-	for i, a := range s {
-		// for case insensitive comparison use strings.ToLower()
-		if strings.ToLower(a) == strings.ToLower(e) {
-			return true, i
+// contains checks if a book is in the books slice if exists return its index
+func contains(books []string, book string) (int, bool) {
+	for i, v := range books {
+		if strings.ToLower(v) == strings.ToLower(book) {
+			return i, true
 		}
 	}
-	return false, 0
+	return 0, false
 }
